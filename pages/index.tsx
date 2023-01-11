@@ -1,84 +1,91 @@
+import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { PostCard } from '../components';
+import { Owner } from '../components';
+import { Banner } from '../components';
+import { Buttons } from '../components';
 
-const Home: NextPage = () => {
+
+const dummyPosts = [
+  {
+    title: "Interview",
+    featuredImage: {
+      url: "https://ocdn.eu/pulscms-transforms/1/iciktkpTURBXy85Nzc1ZjEwMWI4NGIzZDUzYTY1NmU3OTFiMmFiODE1ZC5qcGeSlQMAzFPNAoDNAWiTBc0CgM0BQA"
+    },
+    snipped: `What are your shoes saying about you?
+They're suggesting some sort of scoundrel. A cad. They were bought in Corsica. Would you trust a man who wore shoes like this? Absolutely not!
+`,
+    snippedAuth: 'Details Mag',
+    slug: "the-sting",
+    author: {
+      name: "NME",
+    },
+    comment: "I think there's been an unfortunate trend against this teetering around in the last few years. It's caused me a lot of grief. As I walk down the streets of our major cities and see only chunky boots, I shake my head sadly and think about what the world has come to.",
+
+  },
+
+  {
+    title: "Vanessa Paradis Interview",
+    featuredImage: {
+      url: "https://www.1800flowers.com/blog/wp-content/uploads/2021/05/Birthday-Flowers-Colors.jpg"
+    },
+    snipped:  `I do sometimes strongly hope that in a past life, my most recent life before this, I was absolutely horrible, evil, hideous. Because otherwise – well, hell, to even things up next time around, I'm going to have to pay for this one, am I not?
+`,
+    snippedAuth: 'The Guardian',
+    slug: "vanessa-paradis",
+    author: {
+      name: "NME",
+    },
+    comment: "Personally, I'm with her here: never quite understood why when someone makes a film or sings a song they become public property.",
+
+  },
+]
+
+const dummyOwner = {
+  name: 'DummyDum',
+  bio: "I'm blue da bu dee da bu die Da bu dee da bu die Da bu dee da bu die Da bu dee da bu die",
+  interests: [ "music", "films", "anime", "sumerios"],
+  photo: {
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Brian_Eno_-_TopPop_1974_04.png/220px-Brian_Eno_-_TopPop_1974_04.png'
+  },
+  banner: {
+    url: 'https://img.freepik.com/vector-gratis/fondo-vaporwave-vintage-realista_23-2148887268.jpg?w=2000',
+  },
+  blog: {
+    title: 'My snippets blog',
+    desc: 'Desc desc desc'
+  }
+}
+
+const Home = () => {
+
+  const [posts, setPosts] = useState(dummyPosts);
+  const [owner, setOwner] = useState(dummyOwner);
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="container mx-auto px-10 mb-8">
+
       <Head>
-        <title>Create Next App</title>
+        <title>Snippets MVP</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-8 col-span-1 mt-20">
+            <Banner owner={owner} />
+            {/*<Buttons />*/}
+              {posts.map((post, index) => (
+                <PostCard post={post} key={index} />))}
+            </div>
+            <div className="lg:col-span-4 col-span-1 mt-20">
+                <div className="lg:sticky relative top-20">
+                  <Owner owner={owner} />
+                </div>
+            </div>
+      </div>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
     </div>
   )
 }
